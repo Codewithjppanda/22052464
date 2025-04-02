@@ -30,7 +30,7 @@ async function getAuthToken() {
   try {
     if (accessToken) return accessToken;
 
-    const response = await axios.post(${BASE_URL}/auth, authConfig);
+    const response = await axios.post(`${BASE_URL}/auth`, authConfig);
     accessToken = response.data.access_token;
     return accessToken;
   } catch (error) {
@@ -54,15 +54,15 @@ async function fetchNumbers(type) {
 
   try {
     const token = await getAuthToken();
-    const response = await axios.get(${BASE_URL}/${endpoints[type]}, {
+    const response = await axios.get(`${BASE_URL}/${endpoints[type]}`, {
       timeout: REQUEST_TIMEOUT,
       headers: {
-        Authorization: Bearer ${token},
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data.numbers || [];
   } catch (error) {
-    console.error(Error fetching ${type} numbers:, error.message);
+    console.error(`Error fetching ${type} numbers:`, error.message);
     return [];
   }
 }
@@ -129,5 +129,5 @@ app.get("/numbers/:numberid", async (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(Average Calculator Microservice running on port ${port});
+  console.log(`Average Calculator Microservice running on port ${port}`);
 });
